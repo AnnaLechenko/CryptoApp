@@ -1,0 +1,65 @@
+package com.example.cryptoapp.data.mapper
+
+import com.example.cryptoapp.data.database.CoinInfoDbModel
+import com.example.cryptoapp.data.network.model.CoinInfoDto
+import com.example.cryptoapp.data.network.model.CoinInfoJsonContainerDto
+import com.example.cryptoapp.data.network.model.CoinNameListDto
+import com.example.cryptoapp.domain.CoinInfo
+import com.google.gson.Gson
+
+class CoinMapper {
+    fun mapDtoToDmModel(dto: CoinInfoDto) : CoinInfoDbModel{
+        return  CoinInfoDbModel(
+            fromSymbol = dto.fromSymbol,
+            price = dto.price,
+            lowDay = dto.lowDay,
+            highDay = dto.highDay,
+            lastMarket = dto.lastMarket,
+           lastUpdate = dto.lastUpdate ,
+            toSymbol = dto.toSymbol,
+            imageUrl = dto.imageUrl
+
+        )
+    }
+
+    fun mapJsonContainerToListCoinInfo(jsonContainer: CoinInfoJsonContainerDto)
+                :List<CoinInfoDto>{
+
+         val result = mutableListOf<CoinInfoDto>()
+
+        val jsonObject = jsonContainer.json ?: return result
+
+        val coinKeySet = jsonObject.keySet() //получаем набор клюей
+        for (coinKey in coinKeySet) {
+            val currencyJson = jsonObject.getAsJsonObject(coinKey)
+            val currencyKeySet = currencyJson.keySet()
+            for (currencyKey in currencyKeySet) {
+                val priceInfo = Gson().fromJson(
+                    currencyJson.getAsJsonObject(currencyKey),
+                    CoinInfoDto::class.java
+                )
+                result.add(priceInfo)
+            }
+        }
+        return result
+        }
+
+    fun mapNamesListToString(nameListDto: CoinNameListDto):String{
+        return nameListDto.namesList?.map {
+            it.coinNameContainerDto?.name }?.joinToString(",")?: ""
+    }
+
+    fun mapDBModelToEntity(dbModel: CoinInfoDbModel): CoinInfo{
+        return CoinInfo(
+            fromSymbol =dbModel.fromSymbol,
+            price =dbModel.price,
+            lowDay =dbModel.lowDay,
+            highDay =dbModel.highDay,
+            lastMarket =dbModel.lastMarket,
+            lastUpdate =dbModel.lastUpdate ,
+            toSymbol =dbModel.toSymbol,
+            imageUrl = dbModel.imageUrl
+
+        )
+    }
+}
