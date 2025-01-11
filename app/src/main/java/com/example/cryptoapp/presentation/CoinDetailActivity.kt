@@ -8,9 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.cryptoapp.R
+import com.example.cryptoapp.databinding.ActivityCoinDetailBinding
 
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_coin_detail.*
+
 
 class CoinDetailActivity : AppCompatActivity() {
 
@@ -18,9 +19,17 @@ class CoinDetailActivity : AppCompatActivity() {
 
     private lateinit var viewModel: CoinViewModel
 
+    private val binding by lazy {
+        ActivityCoinDetailBinding.inflate(
+            layoutInflater
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_coin_detail)
+        setContentView(binding.root)
+
+
 
         if (!intent.hasExtra(EXTRA_FROM_SYMBOL)) {
             finish()
@@ -32,6 +41,7 @@ class CoinDetailActivity : AppCompatActivity() {
         val fromSymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL) ?: EMPTY_SYMBOL
         viewModel = ViewModelProvider(this)[CoinViewModel::class.java]
         viewModel.getDetailInfo(fromSymbol).observe(this) {
+            with(binding){
             tvPrice.text = it.price
             tvMinPrice.text = it.lowDay
             tvMaxPrice.text = it.highDay
@@ -40,7 +50,7 @@ class CoinDetailActivity : AppCompatActivity() {
             tvFromSymbol.text = it.fromSymbol
             tvToSymbol.text = it.toSymbol
             Picasso.get().load(it.imageUrl).into(ivLogoCoin)
-        }
+        }}
     }
 
     companion object {

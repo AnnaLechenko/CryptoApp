@@ -1,6 +1,7 @@
 package com.example.cryptoapp.presentation
 
 import android.app.Application
+import android.widget.TextView
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
@@ -23,6 +24,7 @@ class CoinViewModel(application: Application) : AndroidViewModel(application) {
     val coinInfoList = getCoinInfoLidtUseCase()
 
     fun getDetailInfo(fSym: String)= getCoinInfoUseCase(fSym)
+
 
 
     init {
