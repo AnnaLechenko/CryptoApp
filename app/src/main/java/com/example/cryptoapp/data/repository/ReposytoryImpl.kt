@@ -12,7 +12,6 @@ import com.example.cryptoapp.data.network.ApiFactory
 import com.example.cryptoapp.data.network.model.CoinInfoDto
 import com.example.cryptoapp.domain.CoinInfo
 import com.example.cryptoapp.domain.CoinRepository
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.delay
 import java.util.concurrent.TimeUnit
 
@@ -46,14 +45,18 @@ class ReposytoryImpl(private val application: Application) : CoinRepository{
 
     override suspend fun loadData() {
         while (true){
-            val topcoins = apiService.getTopCoinsInfo(limit = 50)
-            val fromSymbols= mapperObj.mapNamesListToString(topcoins)
-            val jsonContainer = apiService.getFullPriceList(fSyms = fromSymbols)
-            val coinInfoList = mapperObj.mapJsonContainerToListCoinInfo(jsonContainer)
-            val dbModelList = coinInfoList.map {
-                mapperObj.mapDtoToDmModel(it)
+            try {
+                val topcoins = apiService.getTopCoinsInfo(limit = 50)
+                val fromSymbols= mapperObj.mapNamesListToString(topcoins)
+                val jsonContainer = apiService.getFullPriceList(fSyms = fromSymbols)
+                val coinInfoList = mapperObj.mapJsonContainerToListCoinInfo(jsonContainer)
+                val dbModelList = coinInfoList.map {
+                    mapperObj.mapDtoToDmModel(it)
+                }
+                dao.insertPriceList(dbModelList)
+            } catch (e: Exception) {
+                TODO("Not yet implemented")
             }
-            dao.insertPriceList(dbModelList)
             delay(10000)
         }
         }
