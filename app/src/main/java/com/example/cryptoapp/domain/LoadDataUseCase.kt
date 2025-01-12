@@ -1,7 +1,7 @@
 package com.example.cryptoapp.domain
 
 class LoadDataUseCase(val repository: CoinRepository) {
-    operator suspend fun invoke(){
+    operator  fun invoke(){
         repository.loadData()
     }
 
