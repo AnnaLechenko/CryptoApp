@@ -1,24 +1,17 @@
 package com.example.cryptoapp.presentation
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.cryptoapp.databinding.ActivityCoinDetailBinding
 import com.example.cryptoapp.databinding.FragmentCoinDetailBinding
 
 import com.squareup.picasso.Picasso
 
 
 class CoinDetailFragment : Fragment() {
-
-
-
 
     private lateinit var viewModel: CoinViewModel
 
@@ -31,7 +24,7 @@ class CoinDetailFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCoinDetailBinding.inflate(
             inflater,
             container,
@@ -42,7 +35,7 @@ class CoinDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val fromSymbol =getSymbol()
+        val fromSymbol = getSymbol()
         viewModel = ViewModelProvider(this)[CoinViewModel::class.java]
         viewModel.getDetailInfo(fromSymbol).observe(viewLifecycleOwner) {
             with(binding){
@@ -64,16 +57,19 @@ class CoinDetailFragment : Fragment() {
 
 
     private fun getSymbol():String{
-       val argument =requireArguments()
-       val str =  argument.getString(EXTRA_FROM_SYMBOL, EMPTY_SYMBOL)
-        return str
+
+        return requireArguments().getString(EXTRA_FROM_SYMBOL, EMPTY_SYMBOL)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 
     companion object {
         private const val EXTRA_FROM_SYMBOL = "fSym"
         private const val EMPTY_SYMBOL = ""
 
-        fun newInctance( fromSymbol: String): Fragment {
+        fun newInstance (fromSymbol: String): Fragment {
             return CoinDetailFragment().apply {
                 arguments = Bundle().apply {
                     putString(EXTRA_FROM_SYMBOL, fromSymbol)

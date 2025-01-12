@@ -28,7 +28,6 @@ class CoinInfoAdapter(private val context: Context)
             parent,
             false
         )
-
         return CoinInfoViewHolder(binding)
     }
 

@@ -3,15 +3,9 @@ package com.example.cryptoapp.presentation
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.ActivityCoinDetailBinding
-
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_coin_detail.fragment_container
 
 
 class CoinDetailActivity : AppCompatActivity() {
@@ -39,7 +33,7 @@ class CoinDetailActivity : AppCompatActivity() {
            supportFragmentManager.beginTransaction()
                .replace(
                    R.id.fragment_container,
-                   CoinDetailFragment.newInctance(fromSymbol)
+                   CoinDetailFragment.newInstance(fromSymbol)
                )
                .commit()
         }
@@ -52,9 +46,9 @@ class CoinDetailActivity : AppCompatActivity() {
         private const val EMPTY_SYMBOL = ""
 
         fun newIntent(context: Context, fromSymbol: String): Intent {
-            val intentX = Intent(context, CoinDetailActivity::class.java)
-            intentX.putExtra(EXTRA_FROM_SYMBOL, fromSymbol)
-            return intentX
+            val intent = Intent(context, CoinDetailActivity::class.java)
+            intent.putExtra(EXTRA_FROM_SYMBOL, fromSymbol)
+            return intent
         }
     }
 }
