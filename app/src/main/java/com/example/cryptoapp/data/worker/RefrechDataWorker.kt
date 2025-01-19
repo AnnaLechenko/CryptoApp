@@ -8,20 +8,23 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.cryptoapp.data.database.AppDatabase
+import com.example.cryptoapp.data.database.CoinInfoDao
 import com.example.cryptoapp.data.mapper.CoinMapper
 import com.example.cryptoapp.data.network.ApiFactory
+import com.example.cryptoapp.data.network.ApiService
+import com.example.cryptoapp.presentation.CoinApp
 import kotlinx.coroutines.delay
 
 class RefrechDataWorker(
     context: Context,
-    workerParameters: WorkerParameters
+    workerParameters: WorkerParameters,
+   private  val mapperObj :CoinMapper,
+   private  val apiService:ApiService,
+    private  val dao : CoinInfoDao
 ): CoroutineWorker(context,workerParameters){
 
 
-    val mapperObj = CoinMapper()
-    val apiService = ApiFactory.apiService
-    private val dao = AppDatabase.getInstance(context)
-        .coinPriceInfoDao()
+
 
     override suspend fun doWork(): Result {
        while (true) {
