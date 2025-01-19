@@ -3,6 +3,7 @@ package com.example.cryptoapp.data.worker
 import android.content.Context
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
+import androidx.work.ListenableWorker
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.Worker
@@ -14,6 +15,7 @@ import com.example.cryptoapp.data.network.ApiFactory
 import com.example.cryptoapp.data.network.ApiService
 import com.example.cryptoapp.presentation.CoinApp
 import kotlinx.coroutines.delay
+import javax.inject.Inject
 
 class RefrechDataWorker(
     context: Context,
@@ -44,6 +46,24 @@ class RefrechDataWorker(
            delay(10000)
        }
     }
+
+
+    //мини фабрика для каждого класса - реализация
+    class Factory @Inject constructor(
+        private  val mapperObj :CoinMapper,
+        private  val apiService:ApiService,
+        private  val dao : CoinInfoDao
+    ):ChildWorkerFactory{
+        override fun create(
+            context: Context,
+            workerParameters: WorkerParameters
+        ): ListenableWorker {
+            return RefrechDataWorker(
+                context,workerParameters,mapperObj,apiService,dao
+            )
+        }
+    }
+
 
     companion object{
         const val SERVICE_NAME = "RefreshDataWorker"

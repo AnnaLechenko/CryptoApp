@@ -8,24 +8,27 @@ import com.example.cryptoapp.data.database.CoinInfoDao
 import com.example.cryptoapp.data.mapper.CoinMapper
 import com.example.cryptoapp.data.network.ApiService
 import javax.inject.Inject
+import javax.inject.Provider
 
 class RefreshDataWorkerFactory @Inject constructor(
-    private  val mapperObj : CoinMapper,
-    private  val apiService: ApiService,
-    private  val dao : CoinInfoDao
+   private  val workerProvider:
+   @JvmSuppressWildcards Map<
+           Class<out ListenableWorker>,
+           Provider<ChildWorkerFactory>>
+
 ) : WorkerFactory(){
     override fun createWorker(
         appContext: Context,
         workerClassName: String,
         workerParameters: WorkerParameters
     ): ListenableWorker? {
-        return RefrechDataWorker(
-            appContext,
-            workerParameters,
-            mapperObj,
-            apiService,
-            dao
-        )
+        return  when(workerClassName){
+            RefrechDataWorker::class.qualifiedName -> {
+                val childFactory = workerProvider[RefrechDataWorker::class.java]?.get()
+                return childFactory?.create(appContext,workerParameters)
+            }
+            else -> null
+        }
     }
 
 

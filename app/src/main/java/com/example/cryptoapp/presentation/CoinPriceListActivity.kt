@@ -30,7 +30,7 @@ class CoinPriceListActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        components.inject(this)
+        components.inject(this  )
 
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
