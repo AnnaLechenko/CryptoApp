@@ -8,6 +8,7 @@ import androidx.lifecycle.Transformations
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import com.example.cryptoapp.data.database.AppDatabase
+import com.example.cryptoapp.data.database.CoinInfoDao
 import com.example.cryptoapp.data.database.CoinInfoDbModel
 import com.example.cryptoapp.data.mapper.CoinMapper
 import com.example.cryptoapp.data.network.ApiFactory
@@ -17,14 +18,16 @@ import com.example.cryptoapp.domain.CoinInfo
 import com.example.cryptoapp.domain.CoinRepository
 import kotlinx.coroutines.delay
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class ReposytoryImpl(private val application: Application) : CoinRepository{
+class ReposytoryImpl @Inject constructor(
+    private val application: Application,
+    private val dao :CoinInfoDao,
+    private val mapperObj :CoinMapper
+) : CoinRepository{
 
 
-    val mapperObj = CoinMapper()
 
-    private val dao = AppDatabase.getInstance(application)
-        .coinPriceInfoDao()
 
 
 
