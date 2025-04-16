@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 interface CoinRepository {
     fun getCoinInfoList(): LiveData<List<CoinInfo>>
 
-    fun getCoinInfo(fromSymbal:String): LiveData<CoinInfo>
+    fun getCoinInfo(fromSymbal: String): LiveData<CoinInfo>
 
-   fun loadData()
+    fun loadData()
 }

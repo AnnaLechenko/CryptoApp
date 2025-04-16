@@ -22,39 +22,33 @@ import javax.inject.Inject
 
 class ReposytoryImpl @Inject constructor(
     private val application: Application,
-    private val dao :CoinInfoDao,
-    private val mapperObj :CoinMapper
-) : CoinRepository{
-
-
-
-
+    private val dao: CoinInfoDao,
+    private val mapperObj: CoinMapper
+) : CoinRepository {
 
 
     override fun getCoinInfoList(): LiveData<List<CoinInfo>> {
-       return Transformations.map(dao.getPriceList()){
-           it->
-           it.map {
-             mapperObj.mapDBModelToEntity(it)
-           }
-       }
+        return Transformations.map(dao.getPriceList()) { it ->
+            it.map {
+                mapperObj.mapDBModelToEntity(it)
+            }
+        }
     }
 
     override fun getCoinInfo(fromSymbal: String): LiveData<CoinInfo> {
-        return Transformations.map(dao.getPriceInfoAboutCoin(fromSymbal)){
-            it->
+        return Transformations.map(dao.getPriceInfoAboutCoin(fromSymbal)) { it ->
             mapperObj.mapDBModelToEntity(it)
         }
     }
 
-    override  fun loadData() {
-        val workManager =  WorkManager.getInstance(application)
+    override fun loadData() {
+        val workManager = WorkManager.getInstance(application)
         workManager.enqueueUniqueWork(
             RefrechDataWorker.SERVICE_NAME,
             ExistingWorkPolicy.REPLACE,
             RefrechDataWorker.makeReqest()
 
         )
-        }
+    }
 
 }

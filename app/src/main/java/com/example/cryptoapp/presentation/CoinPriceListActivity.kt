@@ -20,26 +20,26 @@ class CoinPriceListActivity : AppCompatActivity() {
             layoutInflater
         )
     }
-   private lateinit var viewModel: CoinViewModel
+    private lateinit var viewModel: CoinViewModel
 
     @Inject
-    lateinit var viewModelFactory :ViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory
 
     private val components by lazy {
         (application as CoinApp).componentContext
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        components.inject(this  )
+        components.inject(this)
 
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         val adapter = CoinInfoAdapter(this)
         adapter.onCoinClickListener = object : CoinInfoAdapter.OnCoinClickListener {
             override fun onCoinClick(coinPriceInfo: CoinInfo) {
-                if (binding.fragmentContainer == null){
+                if (binding.fragmentContainer == null) {
                     launchDetailAtivity(coinPriceInfo.fromSymbol)
-                } else{
+                } else {
                     launchDetailFragment(coinPriceInfo.fromSymbol)
                 }
             }
@@ -47,25 +47,23 @@ class CoinPriceListActivity : AppCompatActivity() {
         binding.rvCoinPriceList.adapter = adapter
         binding.rvCoinPriceList.itemAnimator = null
         viewModel = ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
-        viewModel.coinInfoList.observe(this, Observer { it->
+        viewModel.coinInfoList.observe(this, Observer { it ->
             adapter.submitList(it) //cm in notify
         })
     }
 
 
-
-    private fun launchDetailAtivity(fromSymbol:String){
+    private fun launchDetailAtivity(fromSymbol: String) {
         val intent = CoinDetailActivity.newIntent(
             this@CoinPriceListActivity,
-             fromSymbol
+            fromSymbol
         )
         startActivity(intent)
     }
 
-    private fun launchDetailFragment(fromSymbol: String){
+    private fun launchDetailFragment(fromSymbol: String) {
         supportFragmentManager.popBackStack()
-        supportFragmentManager.
-        beginTransaction()
+        supportFragmentManager.beginTransaction()
             .replace(
                 R.id.fragment_container,
                 CoinDetailFragment.newInstance(fromSymbol)

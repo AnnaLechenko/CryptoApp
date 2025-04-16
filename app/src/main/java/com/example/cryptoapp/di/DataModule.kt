@@ -16,22 +16,22 @@ import dagger.Provides
 interface DataModule {
     @Binds
     @ApplicationScope
-    fun bindRepositoryImpl(impl: ReposytoryImpl):CoinRepository
+    fun bindRepositoryImpl(impl: ReposytoryImpl): CoinRepository
 
-   companion object{
-       @Provides
-       @ApplicationScope
-       fun provideCoinInfoDao(
-           application: Application
-       ):CoinInfoDao{
-           return AppDatabase.getInstance(application).coinPriceInfoDao()
-       }
+    companion object {
+        @Provides
+        @ApplicationScope
+        fun provideCoinInfoDao(
+            application: Application
+        ): CoinInfoDao {
+            return AppDatabase.getInstance(application).coinPriceInfoDao()
+        }
 
-       @Provides
-       @ApplicationScope
-       fun provideApiServise():ApiService{
-           return ApiFactory.apiService
-       }
+        @Provides
+        @ApplicationScope
+        fun provideApiServise(): ApiService {
+            return ApiFactory.apiService
+        }
 
-   }
+    }
 }

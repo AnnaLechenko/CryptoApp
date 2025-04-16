@@ -130,5 +130,4 @@ data class CoinInfoDto(
 ) {
 
 
-
 }

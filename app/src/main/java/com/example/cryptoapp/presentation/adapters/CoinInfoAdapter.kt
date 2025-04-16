@@ -13,17 +13,15 @@ import com.example.cryptoapp.domain.CoinInfo
 
 import com.squareup.picasso.Picasso
 
-class CoinInfoAdapter(private val context: Context)
-    :
-    ListAdapter<CoinInfo,CoinInfoViewHolder>(CoinInfoDiffCallback()) {
-
+class CoinInfoAdapter(private val context: Context) :
+    ListAdapter<CoinInfo, CoinInfoViewHolder>(CoinInfoDiffCallback()) {
 
 
     var onCoinClickListener: OnCoinClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinInfoViewHolder {
-        val binding =ItemCoinInfoBinding.inflate(
-             LayoutInflater.from(parent.context),
+        val binding = ItemCoinInfoBinding.inflate(
+            LayoutInflater.from(parent.context),
             parent,
             false
         )
@@ -39,15 +37,14 @@ class CoinInfoAdapter(private val context: Context)
                 val lastUpdateTemplate = context.resources.getString(R.string.last_update_template)
                 tvSymbols.text = String.format(symbolsTemplate, fromSymbol, toSymbol)
                 tvPrice.text = price
-                tvLastUpdate.text = String.format(lastUpdateTemplate,lastUpdate)
-                Picasso.get().load( imageUrl).into(ivLogoCoin)
+                tvLastUpdate.text = String.format(lastUpdateTemplate, lastUpdate)
+                Picasso.get().load(imageUrl).into(ivLogoCoin)
                 root.setOnClickListener {
                     onCoinClickListener?.onCoinClick(this)
                 }
             }
         }
     }
-
 
 
     interface OnCoinClickListener {

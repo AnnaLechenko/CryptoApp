@@ -9,7 +9,7 @@ import com.example.cryptoapp.data.network.model.CoinInfoDto
 
 
 @Dao
-interface CoinInfoDao   {
+interface CoinInfoDao {
     @Query("SELECT * FROM full_price_list ORDER BY lastUpdate DESC")
     fun getPriceList(): LiveData<List<CoinInfoDbModel>>
 
@@ -17,5 +17,5 @@ interface CoinInfoDao   {
     fun getPriceInfoAboutCoin(fSym: String): LiveData<CoinInfoDbModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-   suspend fun insertPriceList(priceList: List<CoinInfoDbModel>)
+    suspend fun insertPriceList(priceList: List<CoinInfoDbModel>)
 }

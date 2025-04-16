@@ -16,6 +16,7 @@ import javax.inject.Inject
 class CoinDetailFragment : Fragment() {
 
     private lateinit var viewModel: CoinViewModel
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
@@ -23,9 +24,9 @@ class CoinDetailFragment : Fragment() {
         (requireActivity().application as CoinApp).componentContext
     }
 
-    private var _binding: FragmentCoinDetailBinding?= null
-        private val binding: FragmentCoinDetailBinding
-            get() = _binding ?: throw RuntimeException("FragmentCoinDetailBinding null binding")
+    private var _binding: FragmentCoinDetailBinding? = null
+    private val binding: FragmentCoinDetailBinding
+        get() = _binding ?: throw RuntimeException("FragmentCoinDetailBinding null binding")
 
 
     override fun onCreateView(
@@ -51,14 +52,14 @@ class CoinDetailFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
         val fromSymbol = getSymbol()
-        viewModel = ViewModelProvider(this,viewModelFactory)[CoinViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
         viewModel.getDetailInfo(fromSymbol).observe(viewLifecycleOwner) {
-            with(binding){
+            with(binding) {
                 tvPrice.text = it.price
                 tvMinPrice.text = it.lowDay
                 tvMaxPrice.text = it.highDay
                 tvLastMarket.text = it.lastMarket
-                tvLastUpdate.text =it.lastUpdate
+                tvLastUpdate.text = it.lastUpdate
                 tvFromSymbol.text = it.fromSymbol
                 tvToSymbol.text = it.toSymbol
                 Picasso.get().load(it.imageUrl).into(ivLogoCoin)
@@ -67,11 +68,7 @@ class CoinDetailFragment : Fragment() {
     }
 
 
-
-
-
-
-    private fun getSymbol():String{
+    private fun getSymbol(): String {
 
         return requireArguments().getString(EXTRA_FROM_SYMBOL, EMPTY_SYMBOL)
     }
@@ -85,7 +82,7 @@ class CoinDetailFragment : Fragment() {
         private const val EXTRA_FROM_SYMBOL = "fSym"
         private const val EMPTY_SYMBOL = ""
 
-        fun newInstance (fromSymbol: String): Fragment {
+        fun newInstance(fromSymbol: String): Fragment {
             return CoinDetailFragment().apply {
                 arguments = Bundle().apply {
                     putString(EXTRA_FROM_SYMBOL, fromSymbol)

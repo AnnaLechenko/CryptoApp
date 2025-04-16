@@ -8,10 +8,11 @@ import com.example.cryptoapp.di.DaggerApplicationComponent
 
 import javax.inject.Inject
 
-class CoinApp:Application(),Configuration.Provider {
+class CoinApp : Application(), Configuration.Provider {
+
 
     @Inject
-    lateinit var  workerFactory:RefreshDataWorkerFactory
+    lateinit var workerFactory: RefreshDataWorkerFactory
 
 
     val componentContext by lazy {
@@ -25,9 +26,9 @@ class CoinApp:Application(),Configuration.Provider {
 
 
     override fun getWorkManagerConfiguration(): Configuration {
-       return Configuration.Builder()
-           .setWorkerFactory(workerFactory)
-           .build()
+        return Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
     }
 }
 

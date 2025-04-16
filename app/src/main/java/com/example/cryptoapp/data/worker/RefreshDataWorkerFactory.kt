@@ -11,22 +11,24 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 class RefreshDataWorkerFactory @Inject constructor(
-   private  val workerProvider:
-   @JvmSuppressWildcards Map<
-           Class<out ListenableWorker>,
-           Provider<ChildWorkerFactory>>
+    private val workerProvider:
+    @JvmSuppressWildcards Map<
+            Class<out ListenableWorker>,
+            Provider<ChildWorkerFactory>>
 
-) : WorkerFactory(){
+
+) : WorkerFactory() {
     override fun createWorker(
         appContext: Context,
         workerClassName: String,
         workerParameters: WorkerParameters
     ): ListenableWorker? {
-        return  when(workerClassName){
+        return when (workerClassName) {
             RefrechDataWorker::class.qualifiedName -> {
                 val childFactory = workerProvider[RefrechDataWorker::class.java]?.get()
-                return childFactory?.create(appContext,workerParameters)
+                return childFactory?.create(appContext, workerParameters)
             }
+
             else -> null
         }
     }

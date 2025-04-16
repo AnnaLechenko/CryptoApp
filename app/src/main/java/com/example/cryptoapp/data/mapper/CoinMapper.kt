@@ -13,15 +13,15 @@ import java.util.Locale
 import java.util.TimeZone
 import javax.inject.Inject
 
-class CoinMapper @Inject  constructor(){
-    fun mapDtoToDmModel(dto: CoinInfoDto) : CoinInfoDbModel{
-        return  CoinInfoDbModel(
+class CoinMapper @Inject constructor() {
+    fun mapDtoToDmModel(dto: CoinInfoDto): CoinInfoDbModel {
+        return CoinInfoDbModel(
             fromSymbol = dto.fromSymbol,
             price = dto.price,
             lowDay = dto.lowDay,
             highDay = dto.highDay,
             lastMarket = dto.lastMarket,
-           lastUpdate = dto.lastUpdate ,
+            lastUpdate = dto.lastUpdate,
             toSymbol = dto.toSymbol,
             imageUrl = dto.imageUrl
 
@@ -29,9 +29,9 @@ class CoinMapper @Inject  constructor(){
     }
 
     fun mapJsonContainerToListCoinInfo(jsonContainer: CoinInfoJsonContainerDto)
-                :List<CoinInfoDto>{
+            : List<CoinInfoDto> {
 
-         val result = mutableListOf<CoinInfoDto>()
+        val result = mutableListOf<CoinInfoDto>()
 
         val jsonObject = jsonContainer.json ?: return result
 
@@ -48,28 +48,29 @@ class CoinMapper @Inject  constructor(){
             }
         }
         return result
-        }
-
-    fun mapNamesListToString(nameListDto: CoinNameListDto):String{
-        return nameListDto.namesList?.map {
-            it.coinNameContainerDto?.name }?.joinToString(",")?: ""
     }
 
-    fun mapDBModelToEntity(dbModel: CoinInfoDbModel): CoinInfo{
+    fun mapNamesListToString(nameListDto: CoinNameListDto): String {
+        return nameListDto.namesList?.map {
+            it.coinNameContainerDto?.name
+        }?.joinToString(",") ?: ""
+    }
+
+    fun mapDBModelToEntity(dbModel: CoinInfoDbModel): CoinInfo {
         return CoinInfo(
-            fromSymbol =dbModel.fromSymbol,
-            price =dbModel.price,
-            lowDay =dbModel.lowDay,
-            highDay =dbModel.highDay,
-            lastMarket =dbModel.lastMarket,
-            lastUpdate =convertTimestampToTime(dbModel.lastUpdate),
-            toSymbol =dbModel.toSymbol,
+            fromSymbol = dbModel.fromSymbol,
+            price = dbModel.price,
+            lowDay = dbModel.lowDay,
+            highDay = dbModel.highDay,
+            lastMarket = dbModel.lastMarket,
+            lastUpdate = convertTimestampToTime(dbModel.lastUpdate),
+            toSymbol = dbModel.toSymbol,
             imageUrl = BASE_IMAGE_URL + dbModel.imageUrl
 
         )
     }
 
-    private  fun convertTimestampToTime(timestamp: Long?): String {
+    private fun convertTimestampToTime(timestamp: Long?): String {
         if (timestamp == null) return ""
         val stamp = Timestamp(timestamp * 1000)
         val date = Date(stamp.time)
@@ -79,7 +80,7 @@ class CoinMapper @Inject  constructor(){
         return sdf.format(date)
     }
 
-    companion object{
-       private const val BASE_IMAGE_URL = "https://cryptocompare.com"
+    companion object {
+        private const val BASE_IMAGE_URL = "https://cryptocompare.com"
     }
 }

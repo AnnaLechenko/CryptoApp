@@ -3,12 +3,12 @@ package com.example.cryptoapp.presentation.adapters
 import androidx.recyclerview.widget.DiffUtil
 import com.example.cryptoapp.domain.CoinInfo
 
-class CoinInfoDiffCallback:DiffUtil.ItemCallback<CoinInfo> (){
+class CoinInfoDiffCallback : DiffUtil.ItemCallback<CoinInfo>() {
     override fun areItemsTheSame(oldItem: CoinInfo, newItem: CoinInfo): Boolean {
         return newItem.fromSymbol == oldItem.fromSymbol
     }
 
     override fun areContentsTheSame(oldItem: CoinInfo, newItem: CoinInfo): Boolean {
-       return oldItem==newItem
+        return oldItem == newItem
     }
 }

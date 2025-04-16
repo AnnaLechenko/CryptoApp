@@ -16,21 +16,20 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CoinViewModel @Inject constructor(
-    val getCoinInfoUseCase : GatCoinInfoUseCase,
-    val getCoinInfoLidtUseCase :GetCoinInfoListUseCase,
-    val loadDataUseCase : LoadDataUseCase
+    val getCoinInfoUseCase: GatCoinInfoUseCase,
+    val getCoinInfoLidtUseCase: GetCoinInfoListUseCase,
+    val loadDataUseCase: LoadDataUseCase
 ) : ViewModel() {
 
 
     val coinInfoList = getCoinInfoLidtUseCase()
 
-    fun getDetailInfo(fSym: String)= getCoinInfoUseCase(fSym)
+    fun getDetailInfo(fSym: String) = getCoinInfoUseCase(fSym)
 
 
     init {
-           loadDataUseCase()
+        loadDataUseCase()
     }
-
 
 
 }

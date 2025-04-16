@@ -11,7 +11,6 @@ import com.example.cryptoapp.databinding.ActivityCoinDetailBinding
 class CoinDetailActivity : AppCompatActivity() {
 
 
-
     private val binding by lazy {
         ActivityCoinDetailBinding.inflate(
             layoutInflater
@@ -29,16 +28,15 @@ class CoinDetailActivity : AppCompatActivity() {
         }
         val fromSymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL) ?: EMPTY_SYMBOL
 
-        if (savedInstanceState == null){
-           supportFragmentManager.beginTransaction()
-               .replace(
-                   R.id.fragment_container,
-                   CoinDetailFragment.newInstance(fromSymbol)
-               )
-               .commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(
+                    R.id.fragment_container,
+                    CoinDetailFragment.newInstance(fromSymbol)
+                )
+                .commit()
         }
     }
-
 
 
     companion object {

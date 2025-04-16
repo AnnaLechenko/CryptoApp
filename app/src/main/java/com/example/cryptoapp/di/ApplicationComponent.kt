@@ -17,12 +17,12 @@ interface ApplicationComponent {
 
 
     fun inject(application: CoinApp)
-    fun  inject(activity: CoinPriceListActivity)
+    fun inject(activity: CoinPriceListActivity)
     fun intject(fragment: CoinDetailFragment)
 
     @Component.Factory
-    interface  Factory{
+    interface Factory {
 
-        fun create(@BindsInstance application: Application) : ApplicationComponent
+        fun create(@BindsInstance application: Application): ApplicationComponent
     }
 }
